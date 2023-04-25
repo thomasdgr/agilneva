@@ -44,6 +44,12 @@ You may also use Docker (in root folder):
   docker run -it -p 8000:8000 agileneva   
 ```
 
+If you don't want to build the image, you may use the image build in github registry:
+
+```sh
+  docker run -it -p 8000:8000 pth:latest
+```
+
 To quit the docker image, use `exit`
 
 ## Testing the service
