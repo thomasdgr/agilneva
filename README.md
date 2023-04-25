@@ -47,7 +47,9 @@ You may also use Docker (in root folder):
 If you don't want to build the image, you may use the image build in github registry:
 
 ```sh
-  docker run -it -p 8000:8000 pth:latest
+  docker login ghcr.io -u <username> --password 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
+  docker pull ghcr.io/thomasdgr/agilneva/agileneva:latest
+  docker run --rm -it ghcr.io/thomasdgr/agilneva/agileneva:latest
 ```
 
 To quit the docker image, use `exit`
@@ -59,3 +61,4 @@ If you want to test the app, you may use the following command:
 ```sh
   pytest -s -p no:warnings
 ```
+
