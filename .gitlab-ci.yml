@@ -1,0 +1,33 @@
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  image: python:3.8
+  stage: test
+  before_script:
+    - pip3 install --upgrade pip
+    - pip3 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip3 --version
+    - pip3 install --trusted-host pypi.python.org -r api_rest/requirements.txt
+  script:
+    - cd api_rest/
+    - pytest -s -p no:warnings
+
+build:
+  image: docker:19.03.12
+  stage: build
+  services:
+    - docker:19.03.12-dind # use docker in docker to build the image
+  variables:
+    LATEST_IMAGE: $CI_REGISTRY_IMAGE/agileneva:latest # we always overwrite the latest image (not a problem for now at least)
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY # login to the registry
+  script:
+    - docker pull $LATEST_IMAGE || true  # pull make the build faster as it can use the cached layers
+    - docker build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE . # build the image
+    - docker push $LATEST_IMAGE # push the image to the registry
+  retry: 2
