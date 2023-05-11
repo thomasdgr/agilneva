@@ -1,11 +1,13 @@
 import os
 import logging
+import json
 
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from starlette.responses import FileResponse
 from starlette.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, conint
+from starlette.responses import JSONResponse
 
 # *****************************************************************************
 #                  Some general constants and variables
@@ -45,20 +47,27 @@ rootapp.mount(URL_PREFIX, app)
 logger = logging.getLogger("uvicorn.error")
 logger.info('Starting app with URL_PREFIX=' + URL_PREFIX)
 
+RESTOS_FILE = "restaurants.json"
+restos = {}
+with open(RESTOS_FILE, "r") as f:
+    restos = json.load(f)
+
 # *****************************************************************************
 #                  The classes defining the API input and output models
 # *****************************************************************************
 
-class obj(BaseModel):
-    var: str
+class grade(BaseModel):
+    resto: str
+    name: str
+    grade: conint(ge=1, le=5)
 
 # *****************************************************************************
 #                  Routes of the API
 # *****************************************************************************
 
-@rootapp.on_event("startup")
+@app.on_event("startup")
 def startup_event():
-    logger.info("Starting up...")
+    pass
     
 @app.get("/")
 def info():
@@ -70,11 +79,43 @@ def showcase():
     logger.info("route '/showcase' called")
     return FileResponse("./api_rest/showcase/index.html")
 
-@app.get("/assets/{filename}")
-async def assets(filename: str):
-    logger.info("route '/assets/{}' called".format(filename))
-    return FileResponse("./api_rest/showcase/assets/" + filename)
+@app.get("/restaurants")
+def list_restaurants():
+    logger.info("route '/restaurants' called")
+    return JSONResponse(content=restos)
+
+@app.post("/grade")
+def add_grade(grade: grade):
+    logger.info("route '/grade' called")
+    if grade.resto not in restos:
+        restos[grade.resto] = []
+    restos[grade.resto].append({grade.name:grade.grade})
+    with open(RESTOS_FILE, "w") as f:
+        json.dump(restos, f, indent=4)
+    return JSONResponse(content=restos)
+
+@app.get("/mean")
+def list_mean():
+    logger.info("route '/mean' called")
+    data = {r: mean(r) for r in restos}
+    return JSONResponse(content=data)
+
+@app.get("/restaurants/sort_alpha")
+def sort_restaurants():
+    logger.info("route '/restaurants/sort_alpha' called")
+    data = {r: restos[r] for r in sorted(restos.keys())}
+    return JSONResponse(content=data)
+
+@app.get("/restaurants/sort_mean")
+def sort_restaurants_mean():
+    logger.info("route '/restaurants/sort_mean' called")
+    data = {r: restos[r] for r in sorted(restos.keys(), key=lambda x: mean(x))}
+    return JSONResponse(content=data)
 
 # *****************************************************************************
 #                  Utility functions
 # *****************************************************************************
+
+def mean(r):
+    total_sum = sum(next(iter(entry.values())) for entry in restos[r])
+    return total_sum / len(restos[r]) if len(restos[r]) > 0 else 0

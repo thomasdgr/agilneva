@@ -59,6 +59,6 @@ To quit the docker image, use `exit`
 If you want to test the app, you may use the following command:
 
 ```sh
+  cd api_rest
   pytest -s -p no:warnings
 ```
-
