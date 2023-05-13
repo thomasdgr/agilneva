@@ -9,6 +9,7 @@ RUN mkdir -p /app/api_rest
 
 # Copy the requirements file into the container at /app
 COPY api_rest/requirements.txt /app/api_rest/requirements.txt
+COPY api_rest/restaurants.json restaurants.json
 
 # Upgrade pip if necessary
 RUN pip3 install --upgrade pip

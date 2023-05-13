@@ -79,6 +79,15 @@ def showcase():
     logger.info("route '/showcase' called")
     return FileResponse("./api_rest/showcase/index.html")
 
+restos = {}
+with open(RESTOS_FILE, "r") as f:
+    restos = json.load(f)
+
+class grade(BaseModel):
+    resto: str
+    name: str
+    grade: conint(ge=1, le=5)
+    
 @app.get("/restaurants")
 def list_restaurants():
     logger.info("route '/restaurants' called")
