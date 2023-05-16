@@ -21,6 +21,7 @@ RUN pip3 install --trusted-host pypi.python.org -r /app/api_rest/requirements.tx
 COPY api_rest/showcase /app/api_rest/showcase
 COPY api_rest/*.py /app/api_rest/
 
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
