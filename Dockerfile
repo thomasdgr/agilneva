@@ -26,3 +26,5 @@ EXPOSE 8000
 
 # Run app.py when the container launches
 CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8000", "api_rest.main:rootapp"]
+
+
