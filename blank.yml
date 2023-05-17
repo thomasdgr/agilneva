@@ -51,7 +51,6 @@ jobs:
     - name: Build and push Docker image
       run: |
         LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
-        docker-compose build
-        docker-compose up -d
-        docker tag $LATEST_IMAGE $LATEST_IMAGE
+        docker pull $LATEST_IMAGE || true
+        docker build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
         docker push $LATEST_IMAGE
