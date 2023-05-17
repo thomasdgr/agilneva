@@ -27,7 +27,7 @@ jobs:
         virtualenv venv
         source venv/bin/activate
         pip --version
-        pip install --trusted-host pypi.python.org -r api_rest/requirements.txt
+        pip install --trusted-host pypi.python.org -r backend/api_rest/requirements.txt
 
     - name: Run tests
       run: |
