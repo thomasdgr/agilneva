@@ -20,6 +20,11 @@ jobs:
       with:
         python-version: 3.8
 
+    - name: Install Node.js and npm
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -28,6 +33,7 @@ jobs:
         source venv/bin/activate
         pip --version
         pip install --trusted-host pypi.python.org -r backend/api_rest/requirements.txt
+
         npm install frontend/api_rest/showcase/agilneva-fe
         npm run build frontend/api_rest/showcase/agilneva-fe
 
