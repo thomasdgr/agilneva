@@ -28,11 +28,13 @@ jobs:
         source venv/bin/activate
         pip --version
         pip install --trusted-host pypi.python.org -r backend/api_rest/requirements.txt
-
+        npm install frontend/api_rest/showcase/agilneva-fe
+        npm run build
+        
     - name: Run tests
       run: |
         source venv/bin/activate
-        cd api_rest/
+        cd backend/api_rest/
         pytest -s -p no:warnings
 
   build:
