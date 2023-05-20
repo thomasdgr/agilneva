@@ -60,8 +60,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
+    - name: Build Frontend 
+      run: |
+        cd frontend/api_rest/showcase/agilneva-fe
+        ls
+        npm run build
+
     - name: Start Docker Compose
       run: |
+        ls
         docker-compose down
         docker-compose up -d
         docker-compose build
