@@ -64,6 +64,8 @@ jobs:
       run: |
         cd frontend/api_rest/showcase/agilneva-fe
         ls
+        npm install
+        npm run type-check
         npm run build
 
     - name: Start Docker Compose
