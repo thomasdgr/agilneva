@@ -8,7 +8,6 @@ WORKDIR /app
 RUN mkdir -p /app/api_rest
 
 COPY api_rest/showcase /app/api_rest/showcase
-COPY api_rest/*.py /app/api_rest/
 
 COPY api_rest/showcase/agilneva-fe/dist /app/api_rest/showcase
 
