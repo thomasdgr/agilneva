@@ -35,24 +35,27 @@ Python virtual environment in the `/api_rest/` folder installing the python modu
 
 Once installed, you may launch `uvicorn api_rest.main:rootapp --reload` to launch it from the terminal. The OpenAPI specifications are available under the route `/specification` and the Swagger interface to test the API under the route `/docs`. The showcase is under the route `/showcase`.
 
-## Running the service - docker
+## Running the service - docker-compose
 
 You may also use Docker (in root folder):
 
-```sh
-  docker build -t agileneva .
-  docker run -it -p 8000:8000 agileneva   
-```
+### Dependencies
+You should have docker-compose install.
 
-If you don't want to build the image, you may use the image build in github registry:
+To start this docker-compose you should pull an other image from docker hub.
 
 ```sh
-  docker login ghcr.io -u <username> --password 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
-  docker pull ghcr.io/thomasdgr/agilneva/agileneva:latest
-  docker run --rm -it ghcr.io/thomasdgr/agilneva/agileneva:latest
+docker pull nikolaik/python-nodejs
 ```
 
-To quit the docker image, use `exit`
+### Run the app
+
+```sh
+  docker-compose build
+  docker-compose up
+```
+
+To quit the docker image, use `exit` or `control`+ `c`
 
 ## Testing the service
 
