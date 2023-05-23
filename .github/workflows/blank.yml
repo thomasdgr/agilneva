@@ -72,12 +72,13 @@ jobs:
         docker-compose up -d
         docker-compose build
     
-    - name: Log in to the GitHub Container Registry
-      run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-    - name: Build and push Docker image
-      run: |
-        LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
-        docker-compose pull $LATEST_IMAGE || true
-        docker-compose build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
-        docker-compose push $LATEST_IMAGE
+    #- name: Log in to the GitHub Container Registry
+    #  run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    #
+    #- name: Build and push Docker image
+    #  run: |
+    #    LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
+    #    docker-compose pull $LATEST_IMAGE || true
+    #    docker-compose build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
+    #    docker-compose push $LATEST_IMAGE
+    # Uncomment to deploy on container registry
