@@ -123,7 +123,7 @@ def sort_restaurants():
 @app.get("/restaurants/sort_mean")
 def sort_restaurants_mean():
     logger.info("route '/restaurants/sort_mean' called")
-    data = {r: restos[r] for r in sorted(restos.keys(), key=lambda x: mean(x))}
+    data = {r: restos[r] for r in sorted(restos.keys(), key=lambda x: mean(x), reverse=True)}    
     return JSONResponse(content=data)
 
 # *****************************************************************************

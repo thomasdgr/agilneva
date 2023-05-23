@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { DefaultService } from '@/api';
 
 export const useStore = defineStore('store', () => {
-  let restaurants = ref<any>();
+  let restaurants = ref<Record<string, Record<string, number>[]> | undefined>(undefined);
 
 
   let getRestaurant = async () => {

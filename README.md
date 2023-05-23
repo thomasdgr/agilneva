@@ -57,17 +57,6 @@ Once the frontend build, you may launch `python3 -m http.server 5173` to launch 
 
 ## Running the service - docker
 
-### Dependencies 
-
-To start the docker compose, you should pull a register the docker hub.
-
-```sh
-  docker pull nikolaik/python-nodejs
-```
-
-
-## Start service
-
 You may also use Docker (in root folder):
 
 ```sh
