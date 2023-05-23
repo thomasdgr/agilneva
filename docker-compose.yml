@@ -1,6 +1,7 @@
 version: "3"
 services:
   frontend:
+    #image: ghcr.io/thomasdgr/agilneva/frontend:latest # Uncomment to deploy on container registry
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -8,6 +9,7 @@ services:
       - "5173:5173"
 
   backend:
+    #image: ghcr.io/thomasdgr/agilneva/backend:latest # Uncomment to deploy on container registry
     build:
       context: ./backend
       dockerfile: Dockerfile

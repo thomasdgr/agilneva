@@ -36,7 +36,6 @@ jobs:
 
         npm install frontend/api_rest/showcase/agilneva-fe
         cd frontend/api_rest/showcase/agilneva-fe
-        ls
         npm run build
 
     - name: Run tests
@@ -63,14 +62,23 @@ jobs:
     - name: Build Frontend 
       run: |
         cd frontend/api_rest/showcase/agilneva-fe
-        ls
         npm install
         npm run type-check
         npm run build
 
     - name: Start Docker Compose
       run: |
-        ls
         docker-compose down
         docker-compose up -d
         docker-compose build
+    
+    #- name: Log in to the GitHub Container Registry
+    #  run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    #
+    #- name: Build and push Docker image
+    #  run: |
+    #    LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
+    #    docker-compose pull $LATEST_IMAGE || true
+    #    docker-compose build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
+    #    docker-compose push $LATEST_IMAGE
+    # Uncomment to deploy on container registry
