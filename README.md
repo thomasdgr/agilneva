@@ -18,6 +18,8 @@ Select, update, add notes or restaurants and sort a list of favorites in Lausann
 
 Units tests are implemented for the backend in order to test the endpoints and the database. A CI-CD pipeline is implemented with Github Actions. The pipeline is triggered on push on the main branch. It runs the unit tests for the backend and build the app if the tests pass.
 
+It is also possible to push the docker image to the github container registry. In order to build and push, you must use the github actions secret `CR_PAT` with a personal access token with the `write:packages` scope. The docker image is then available in the github container registry depending the name given in the `docker-compose.yml` file.
+
 ## Running the web service - linux / mac
 
 ### Backend
