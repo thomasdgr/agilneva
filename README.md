@@ -63,6 +63,8 @@ You may also use Docker (in root folder):
   docker-compose up -d 
 ```
 
+When all the containers are up, you may access the frontend at `http://localhost:5173/` and the backend at `http://localhost:8000/`. 
+
 To stop the service:
 
 ```sh

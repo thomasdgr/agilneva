@@ -10,7 +10,7 @@ def test_sort_mean():
     assert response.status_code == 200
     data = response.json()
     for r in data:
-        assert mean(r) >= mean(list(data.keys())[0])
+        assert mean(r) <= mean(list(data.keys())[0])
 
 def test_sort_alpha():
     response = client.get("/restaurants/sort_alpha")
