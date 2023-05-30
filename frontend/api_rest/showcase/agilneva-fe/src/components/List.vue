@@ -3,15 +3,15 @@
     <h2>List of Restaurants</h2>
     <div class="button-container">
       <button @click="store.getRestaurant" class="action-button">No sort</button>
-      <button @click="store.getAlphabeticRestaurant" class="action-button">Mean sort</button>
-      <button @click="store.getMeanRestaurant" class="action-button">Alphabetic sort </button>
+      <button @click="store.getMeanRestaurant"  class="action-button">Mean sort</button>
+      <button @click="store.getAlphabeticRestaurant" class="action-button">Alphabetic sort </button>
     </div>
     <ul>
       <li v-for="(restaurant, name) in restaurants" :key="name">
         <span class="restaurant-name">{{ name }}</span>
         <ul>
           <li v-for="(nameRest, key) in restaurant" :key="key" class="menu-item">
-            <span class="menu-item-key">{{ getKey(nameRest) }}</span> - <span class="grade">{{ getValue(nameRest) }}</span>
+            <span class="menu-item-key">{{ getKey(nameRest) }}</span> - <span class="grade">{{ getValue(nameRest) }}</span> 
           </li>
         </ul>
       </li>
@@ -25,7 +25,7 @@ import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import {useStore} from "@/stores/store"
 import { DefaultService } from '@/api';
 
-let restaurants = ref<any[]>([]);
+let restaurants = ref<Record<string, Record<string, number>[]>>();
 const store = useStore();
 
 let getKey = (obj : any) => {

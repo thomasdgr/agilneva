@@ -20,6 +20,11 @@ jobs:
       with:
         python-version: 3.8
 
+    - name: Install Node.js and npm
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -27,12 +32,16 @@ jobs:
         virtualenv venv
         source venv/bin/activate
         pip --version
-        pip install --trusted-host pypi.python.org -r api_rest/requirements.txt
+        pip install --trusted-host pypi.python.org -r backend/api_rest/requirements.txt
+
+        npm install frontend/api_rest/showcase/agilneva-fe
+        cd frontend/api_rest/showcase/agilneva-fe
+        npm run build
 
     - name: Run tests
       run: |
         source venv/bin/activate
-        cd api_rest/
+        cd backend/api_rest/
         pytest -s -p no:warnings
 
   build:
@@ -45,12 +54,31 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
 
-    - name: Log in to the GitHub Container Registry
-      run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-    - name: Build and push Docker image
+    - name: Install Docker Compose
       run: |
-        LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
-        docker pull $LATEST_IMAGE || true
-        docker build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
-        docker push $LATEST_IMAGE
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+
+    - name: Build Frontend 
+      run: |
+        cd frontend/api_rest/showcase/agilneva-fe
+        npm install
+        npm run type-check
+        npm run build
+
+    - name: Start Docker Compose
+      run: |
+        docker-compose down
+        docker-compose up -d
+        docker-compose build
+    
+    #- name: Log in to the GitHub Container Registry
+    #  run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    #
+    #- name: Build and push Docker image
+    #  run: |
+    #    LATEST_IMAGE=ghcr.io/${{ github.repository }}/agileneva:latest
+    #    docker-compose pull $LATEST_IMAGE || true
+    #    docker-compose build --network host --cache-from $LATEST_IMAGE -t $LATEST_IMAGE .
+    #    docker-compose push $LATEST_IMAGE
+    # Uncomment to deploy on container registry
